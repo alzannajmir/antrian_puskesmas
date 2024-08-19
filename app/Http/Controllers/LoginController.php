@@ -18,14 +18,22 @@ class LoginController extends Controller
             'email' => 'required|email',
             'password' => 'required'
         ]);
-
+    
         if (Auth::attempt($data)) {
             $request->session()->regenerate();
-            return redirect()->intended('/dashboard');
+    
+            $user = Auth::user();
+    
+            if ($user->is_admin) {
+                return redirect()->intended('/dashboard');
+            } elseif ($user->is_dokter) {
+                return redirect()->intended('/dashboard-dokter');
+            }
         }
-
+    
         return back()->with('loginError', 'Login tidak berhasil!');
     }
+    
 
     public function logout(Request $request)
     {

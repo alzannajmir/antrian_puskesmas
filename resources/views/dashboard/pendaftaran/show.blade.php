@@ -86,23 +86,20 @@
                             </div>
 
                         </div>
-
-                        <div class="mb-3 row">
-                            <label for="dokter" class="col-sm-3 col-form-label">Dokter</label>
-                            <div class="col-sm-9">
-                                <select class="form-select @error('dokter') is-invalid @enderror" name="dokter_id" id="dokter">
-                                    <option selected disabled>Pilih Dokter</option>
-                                    @foreach ($dokter as $dr)
-                                     <option value="{{ $dr->id }}">{{ $dr->nama_dokter }}</option>                                      
-                                    @endforeach
-                                  </select>
+                      
+                      <div class="mb-3 row">
+                          <label for="dokter" class="col-sm-3 col-form-label">Dokter</label>
+                          <div class="col-sm-9">
+                              <select class="form-select @error('dokter') is-invalid @enderror" name="dokter_id" id="dokter" disabled>
+                                  <option selected disabled>Pilih Dokter</option>
+                              </select>
                               @error('dokter')
                                   <div class="invalid-feedback">
                                       {{ $message }}
                                   </div>
                               @enderror
-                            </div>
-                        </div>
+                          </div>
+                      </div>
 
                         <div class="mb-3 row">
                             <label for="tipe_pasien" class="col-sm-3 col-form-label">Tipe Pasien</label>
@@ -150,7 +147,6 @@
       </div>
     </div>
   </div>
-
   <script>
 
     const tipePasien = document.getElementById('tipe_pasien')
@@ -169,6 +165,24 @@
       }
     })
 
+    const layananSelect = document.getElementById('layanan');
+    const dokterSelect = document.getElementById('dokter');
+    const dokterByLayanan = @json($dokterByLayanan);
+
+    layananSelect.addEventListener('change', function() {
+        const selectedLayananId = this.value;
+        dokterSelect.innerHTML = '<option selected disabled>Pilih Dokter</option>';
+        dokterSelect.disabled = false;
+
+        if (dokterByLayanan[selectedLayananId]) {
+            dokterByLayanan[selectedLayananId].forEach(dokter => {
+                const option = document.createElement('option');
+                option.value = dokter.id;
+                option.textContent = dokter.nama_dokter;
+                dokterSelect.appendChild(option);
+            });
+        }
+    });
 
   </script>
 @endsection

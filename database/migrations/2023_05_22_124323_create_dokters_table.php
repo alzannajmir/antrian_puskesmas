@@ -15,6 +15,8 @@ class CreateDoktersTable extends Migration
     {
         Schema::create('dokters', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('id_user')->nullable();
+            $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade');
             $table->string('nama_dokter');
             $table->string('spesialis');
             $table->foreignId('layanan_id');

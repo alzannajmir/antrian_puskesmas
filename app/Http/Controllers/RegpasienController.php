@@ -18,11 +18,13 @@ class RegpasienController extends Controller
             'layanan_id' => 'required',
             'dokter_id' => 'required',
             'tipe_pasien' => 'required',
-            'no_bpjs' => 'required',
+            'no_bpjs' => 'nullable',
         ];
 
         $data = $request->validate($validasi);
         $data['noregistrasi'] = random_int(10000000, 99999999);
+
+        $data['keterangan'] = 'Pendaftaran';
 
         // dd($data);
         RegPasien::create($data);

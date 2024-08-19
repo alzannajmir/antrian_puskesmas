@@ -22,6 +22,11 @@ class CreateRegPasiensTable extends Migration
             $table->foreignId('layanan_id');
             $table->string('tipe_pasien');
             $table->boolean('status')->default(1);
+            $table->unsignedBigInteger('id_rekam_medis')->nullable();
+            $table->foreign('id_rekam_medis')->references('id')->on('rekam_medis')->onDelete('cascade');
+            $table->string('keterangan');
+            $table->boolean('is_booking_online')->default(0);
+            $table->date('tanggal_booking')->nullable();
             $table->timestamps();
         });
     }

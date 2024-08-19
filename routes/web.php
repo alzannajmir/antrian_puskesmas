@@ -12,10 +12,16 @@ use App\Http\Controllers\CetakAntrianController;
 use App\Http\Controllers\DokterController;
 use App\Http\Controllers\laporanController;
 use App\Http\Controllers\PendaftaranController;
+use App\Http\Controllers\PendaftaranOnlineController;
 use App\Http\Controllers\RegpasienController;
 use App\Models\RegPasien;
 use App\Http\Controllers\LayananController;
 use App\Models\Dokter;
+
+use App\Http\Controllers\PasienController;
+use App\Http\Controllers\laporanDokterController;
+
+use App\Http\Controllers\BookingOnlineController;
 
 Route::get('/loket-antrian', function () {
     return view('dashboard', [
@@ -56,11 +62,12 @@ Route::get('/dashboard', function () {
         'antrian' => Antrian::whereRaw('day(created_at) = ' . date('d') . ' and month(created_at) = ' . date('m') . ' and year(created_at) = ' . date('Y'))
         ->where('status', 0)->get()
     ]);
-})->middleware('auth');
+})->middleware('isAdmin');
 
 Route::resource('/dashboard/users', UserController::class)->scoped(['user' => 'username'])->middleware('isAdmin');
 Route::resource('/dashboard/loket', LoketController::class)->middleware('isAdmin');
 Route::resource('/dashboard/pendaftaran', PendaftaranController::class)->middleware('auth');
+Route::resource('/dashboard/pendaftaran-online', PendaftaranOnlineController::class)->middleware('auth');
 Route::resource('/dashboard/layanan', LayananController::class)->middleware('isAdmin');
 Route::resource('/dashboard/dokter', DokterController::class)->middleware('isAdmin');
 
@@ -101,3 +108,30 @@ Route::post('/dashboard/laporan/cetak', [laporanController::class, 'cetak'])->mi
 //             ->where('loket_id', '=', 1)
 //             ->where('status', '=', 0)
 //             ->get()
+
+
+// Dokter Routes
+Route::get('/dashboard-dokter', function () {
+    $user = auth()->user();
+
+    $dokter = Dokter::where('id_user', $user->id)->first();
+
+    return view('dashboard-dokter.index', [
+        'pasien' => RegPasien::where('is_booking_online', 0)->where('dokter_id', $dokter->id)->get(),
+        'dokter' => Dokter::all(),
+        'antrian' => Antrian::where('status', 0)->get()
+    ]);
+})->middleware('isDokter');
+
+Route::resource('/dashboard-dokter/pasien', PasienController::class)->middleware('isDokter');
+
+
+Route::get('/dashboard-dokter/laporan', [laporanDokterController::class, 'index'])->middleware('isDokter');
+Route::post('/dashboard-dokter/laporan/cetak', [laporanDokterController::class, 'cetak'])->middleware('isDokter');
+
+
+// Booking Online
+Route::get('/booking-online', [BookingOnlineController::class, 'index'])->name('booking.index');
+Route::post('/booking-online/check-nik', [BookingOnlineController::class, 'checkNik'])->name('booking.checkNik');
+Route::get('/booking/get-dokters', [BookingOnlineController::class, 'getDokters'])->name('booking.getDokters');
+Route::post('/booking-online/submit', [BookingOnlineController::class, 'submitBooking'])->name('booking.submit');

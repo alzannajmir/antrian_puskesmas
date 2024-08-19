@@ -22,11 +22,11 @@
   <body>
     <div class="container-scroller">
       <!-- partial:partials/_navbar.html -->
-      @include('dashboard.layouts.navbar')
+      @include('dashboard-dokter.layouts.navbar')
       <!-- partial -->
       <div class="container-fluid page-body-wrapper">
         <!-- partial:partials/_sidebar.html -->
-        @include('dashboard.layouts.sidebar')
+        @include('dashboard-dokter.layouts.sidebar')
         <!-- partial -->
         <div class="main-panel">
           <div class="content-wrapper">
@@ -59,7 +59,7 @@
     <script src="/vendors/assets/js/misc.js"></script>
     <!-- endinject -->
     <!-- Custom js for this page -->
-    <script src="/vendors/assets/js/dashboard.js"></script>
+    <script src="/vendors/assets/js/dashboard-dokter.js"></script>
     <script src="/vendors/assets/js/todolist.js"></script>
     <!-- End custom js for this page -->
   </body>

@@ -3,7 +3,7 @@
       <li class="nav-item nav-profile">
         <a href="/dashboard" class="nav-link">
           <div class="nav-profile-image">
-            <img src="/vendors/assets/images/faces/face1.jpg" alt="profile">
+            <img src="/img/profile-default.png" alt="profile">
             <span class="login-status online"></span>
             <!--change to offline or busy as needed-->
           </div>
@@ -56,6 +56,13 @@
         <a class="nav-link" href="/dashboard/pendaftaran">
           <span class="menu-title">Pendaftaran</span>
           <i class="mdi mdi-account menu-icon"></i>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link" href="/dashboard/pendaftaran-online">
+          <span class="menu-title">Pendaftaran Online</span>
+          <i class="mdi mdi-web menu-icon"></i>
         </a>
       </li>
 

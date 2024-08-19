@@ -19,6 +19,35 @@
           <form action="/dashboard/dokter" method="post" class="col-6">
             @csrf
             <div class="mb-3">
+              <label for="username" class="form-label">Username : </label>
+              <input type ="text" class="form-control @error('username') is-invalid @enderror" name="username" id="username" placeholder="Username" value="{{ old('username') }}" required>
+              @error('username')
+                  <div class="invalid-feedback">
+                      {{ $message }}
+                  </div>
+              @enderror
+
+            <div class="mb-3">
+              <label for="email" class="form-label">Email : </label>
+              <input type="email" class="form-control @error('email') is-invalid @enderror" name="email" id="email" placeholder="Email" value="{{ old('email') }}" required>
+              @error('email')
+                  <div class="invalid-feedback">
+                      {{ $message }}
+                  </div>
+              @enderror
+            </div>
+      
+            <div class="mb-3">
+              <label for="password" class="form-label">Password : </label>
+              <input type="password" class="form-control @error('password') is-invalid @enderror" name="password" id="password" placeholder="Password" required>
+              @error('password')
+                  <div class="invalid-feedback">
+                      {{ $message }}
+                  </div>
+              @enderror
+            </div>
+
+            <div class="mb-3">
                 <label for="nama_dokter" class="form-label">Nama dokter : </label>
                 <input type="text" class="form-control @error('nama_dokter') is-invalid @enderror" name="nama_dokter" id="nama_dokter" placeholder="Nama dokter" value="{{ old('nama_dokter') }}" required>
             @error('nama_dokter')
@@ -80,7 +109,7 @@
 
       <div class="mb-3">
         <label for="no_hp" class="form-label">No Handphone : </label>
-        <input type="number" class="form-control @error('no_hp') is-invalid @enderror" name="no_hp" id="no_hp" placeholder="Nama dokter" value="{{ old('no_hp') }}" required>
+        <input type="number" class="form-control @error('no_hp') is-invalid @enderror" name="no_hp" id="no_hp" placeholder="No Handphone" value="{{ old('no_hp') }}" required>
         @error('no_hp')
             <div class="invalid-feedback">
                 {{ $message }}
@@ -98,9 +127,6 @@
             </div>
         @enderror
       </div>
-
-
-            
 
             <button type="submit" class="btn btn-gradient-info btn-sm mt-2">Tambah Data</button>
               

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Dokter;
+use App\Models\User;
 use App\Models\Layanan;
 use Illuminate\Http\Request;
 
@@ -49,14 +50,35 @@ class DokterController extends Controller
             'nama_dokter' => 'required',
             'spesialis' => 'required',
             'layanan_id' => 'required',
-            'tgl_lahir' => 'required',
+            'tgl_lahir' => 'required|date',
             'no_hp' => 'required',
-            'alamat' => 'required'
+            'alamat' => 'required',
+            'username' => 'required',
+            'email' => 'required|email',
+            'password' => 'required|min:6'
         ];
-
+    
         $validate = $request->validate($data);
 
-        Dokter::create($validate);
+        $user = User::create([
+            'name' => $validate['nama_dokter'],
+            'username' => $validate['username'],
+            'email' => $validate['email'],
+            'email_verified_at' => now(),
+            'password' => bcrypt($validate['password']),
+            'is_dokter' => true,
+        ]);
+    
+        $dokter = Dokter::create([
+            'id_user' => $user->id,
+            'nama_dokter' => $validate['nama_dokter'],
+            'spesialis' => $validate['spesialis'],
+            'layanan_id' => $validate['layanan_id'],
+            'tgl_lahir' => $validate['tgl_lahir'],
+            'no_hp' => $validate['no_hp'],
+            'alamat' => $validate['alamat'],
+        ]);
+
         return redirect('/dashboard/dokter')->with('success', 'Data dokter berhasil di tambahkan');
 
     }
@@ -95,6 +117,12 @@ class DokterController extends Controller
                 "Spesialis Anestesi",
                 "Spesialis Anestesi",
         ];
+
+        $users = User::where('id', $dokter->id_user)->first();
+
+        $dokter->username = $users->username ?? '-';
+        $dokter->email = $users->email ?? '-';
+
         return view('dashboard.dokter.edit', [
             'dokter' => $dokter,
             'layanan' => Layanan::all(),
@@ -118,13 +146,30 @@ class DokterController extends Controller
             'layanan_id' => 'required',
             'tgl_lahir' => 'required',
             'no_hp' => 'required',
-            'alamat' => 'required'
+            'alamat' => 'required',
+            'username' => 'required',
+            'email' => 'required|email',
+            'password' => 'nullable|min:6'
         ];
-
-        $validate = $request->validate(($data));
-
-        Dokter::where('id', $dokter->id)->update($validate);
-
+    
+        $validate = $request->validate($data);
+    
+        $dokter->update([
+            'nama_dokter' => $validate['nama_dokter'],
+            'spesialis' => $validate['spesialis'],
+            'layanan_id' => $validate['layanan_id'],
+            'tgl_lahir' => $validate['tgl_lahir'],
+            'no_hp' => $validate['no_hp'],
+            'alamat' => $validate['alamat'],
+        ]);
+    
+        $dokter->user->update([
+            'name' => $validate['nama_dokter'],
+            'username' => $validate['username'],
+            'email' => $validate['email'],
+            'password' => $validate['password'] ? bcrypt($validate['password']) : $dokter->user->password,
+        ]);
+    
         return redirect('/dashboard/dokter')->with('success', 'Data berhasil di edit');
 
 
@@ -139,7 +184,10 @@ class DokterController extends Controller
     {
         //
 
+        User::destroy($dokter->id_user);
+
         Dokter::destroy($dokter->id);
+
         return redirect('/dashboard/dokter')->with('success', 'Data Berhasil dihapus!');
 
     }

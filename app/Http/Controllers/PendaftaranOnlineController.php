@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 
 
 
-class PendaftaranController extends Controller
+class PendaftaranOnlineController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,78 +19,17 @@ class PendaftaranController extends Controller
      */
     public function index()
     {
-        $pendaftaranDenganRegistrasi = Pendaftaran::whereHas('registrasi', function($query) {
-            $query->where('is_booking_online', 0);
-        })->get();
-
-        $pendaftaranTanpaRegistrasi = Pendaftaran::whereDoesntHave('registrasi')->get();
-
-        $pendaftaran = $pendaftaranDenganRegistrasi->merge($pendaftaranTanpaRegistrasi);
-
-        $registrasi = RegPasien::where('is_booking_online', 0)->get();
-
-        return view('dashboard.pendaftaran.index', [
-            'pendaftaran' => $pendaftaran,
-            'registrasi' => $registrasi
-        ]);
-    }
-    
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-        
         return view(
-            'dashboard.pendaftaran.create',
-
+            'dashboard.pendaftaran_online.index',
+            [
+                'pendaftaran' => Pendaftaran::whereHas('registrasi', function($query) {
+                    $query->where('is_booking_online', 1);
+                })->get(),
+                'registrasi' => RegPasien::where('is_booking_online', 1)->get()
+            ]
         );
     }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //proses validasi
-
-        // dd($request->post());
-        $rand = rand(10,99);
-
-        $rm = $rand . '-' .  substr($request->ttl,2,5);
-
-        
-        $validasi = [
-            'no_rm' => 'unique:pendaftaran',
-            'no_ktp' => 'required',
-            'nama' => 'required',
-            'ttl' => 'required',
-            'jenis_kelamin' => 'required',
-            'status' => 'required',
-            'alamat' => 'required',
-            'pendidikan' => 'required',
-            'pekerjaan' => 'required',
-            'agama' => 'required',
-            'no_hp' => 'required',
-            'pj' => 'required',
-            'no_pj' => 'required',
-        ];
-
-        $data = $request->validate($validasi);
-        
-        $data['no_rm'] = $rm;
-
-        // dd($data);
-        Pendaftaran::create($data);
-        return redirect('/dashboard/pendaftaran')->with('success', 'Data Berhasil disimpan');
-    }
+    
 
     /**
      * Display the specified resource.
@@ -110,7 +49,7 @@ class PendaftaranController extends Controller
         $layanan = Layanan::all();
         $dokterByLayanan = Dokter::with('layanan')->get()->groupBy('layanan_id');
     
-        return view('dashboard.pendaftaran.show', [
+        return view('dashboard.pendaftaran_online.show', [
             'pasien' => $data,
             'layanan' => $layanan,
             'dokterByLayanan' => $dokterByLayanan,
@@ -127,8 +66,13 @@ class PendaftaranController extends Controller
     public function edit($id)
     {
         //
-        return view('dashboard.pendaftaran.edit', [
-            'pasien' => Pendaftaran::where('no_rm', $id)->get()
+        $pasien = Pendaftaran::where('no_rm', $id)->get();
+
+        $registrasi = RegPasien::where('pasien_id', $pasien[0]['id'])->where('is_booking_online', 1)->first();
+
+        return view('dashboard.pendaftaran_online.edit', [
+            'pasien' => $pasien,
+            'registrasi' => $registrasi
         ]);
     }
 
@@ -162,9 +106,15 @@ class PendaftaranController extends Controller
 
         $data = $request->validate($validasi);
 
-
         Pendaftaran::where('id', $id)->update($data);
-        return redirect('/dashboard/pendaftaran')->with('success', 'Data berhasil di edit');
+
+        RegPasien::where('pasien_id', $id)->update([
+            'keterangan' => 'Pendaftaran',
+            'is_booking_online' => 0,
+            'tanggal_booking' => null
+        ]);
+
+        return redirect('/dashboard/pendaftaran-online')->with('success', 'Data Pendaftaran Berhasil disimpan!');
 
     }
 

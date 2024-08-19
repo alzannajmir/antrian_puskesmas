@@ -20,6 +20,35 @@
             @method('put')
             @csrf
             <div class="mb-3">
+              <label for="username" class="form-label">Username : </label>
+              <input type ="text" class="form-control @error('username') is-invalid @enderror" name="username" id="username" placeholder="Username" value="{{ old('username', $dokter->username ) }}" required>
+              @error('username')
+                  <div class="invalid-feedback">
+                      {{ $message }}
+                  </div>
+              @enderror
+
+              <div class="mb-3">
+                <label for="email" class="form-label">Email : </label>
+                <input type="email" class="form-control @error('email') is-invalid @enderror" name="email" id="email" placeholder="Email" value="{{ old('email', $dokter->email ) }}" required>
+                @error('email')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                @enderror
+              </div>
+
+              <div class="mb-3">
+                <label for="password" class="form-label">Password : </label>
+                <input type="password" class="form-control @error('password') is-invalid @enderror" name="password" id="password" placeholder="Password">
+                @error('password')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                @enderror
+              </div>
+
+            <div class="mb-3">
                 <label for="nama_dokter" class="form-label">Nama dokter : </label>
                 <input type="text" class="form-control @error('nama_dokter') is-invalid @enderror" name="nama_dokter" id="nama_dokter" placeholder="Nama dokter" value="{{ old('nama_dokter', $dokter->nama_dokter ) }}" required>
             @error('nama_dokter')
