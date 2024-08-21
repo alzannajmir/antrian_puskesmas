@@ -59,7 +59,6 @@ class DokterSeeder extends Seeder
         ];
 
         foreach ($doctors as $doctor) {
-            // Buat user baru
             $user = User::create([
                 'name' => $doctor['nama_dokter'],
                 'username' => $doctor['username'],
@@ -69,7 +68,6 @@ class DokterSeeder extends Seeder
                 'is_dokter' => true,
             ]);
 
-            // Buat dokter baru dan kaitkan dengan user
             Dokter::create([
                 'id_user' => $user->id,
                 'nama_dokter' => $doctor['nama_dokter'],
