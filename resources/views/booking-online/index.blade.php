@@ -101,6 +101,27 @@
             font-weight: 700;
             text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
         }
+
+        @media (max-width: 767px) {
+            body {
+                height: 100%;
+                min-height: 100vh;
+                background-size: cover;
+                background-position: center;
+            }
+
+            body::before {
+                height: 100%;
+                min-height: 100vh;
+            }
+
+            .vh-100 {
+                min-height: 100vh;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+            }
+        }
     </style>
 </head>
 
