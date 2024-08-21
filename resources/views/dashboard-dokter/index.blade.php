@@ -56,7 +56,7 @@
                     <th>No. </th>
                     <th>Nama Pasien</th>
                     <th>Jenis Layanan</th>
-                    <th>Status</th>
+                    <th><center>Status</center></th>
                   </tr>
                 </thead>
                 <tbody>
@@ -65,7 +65,16 @@
                       <td>{{ $loop->iteration }}</td>
                       <td>{{ $p->pendaftaran->nama }}</td>
                       <td>{{ $p->layanan->nama_layanan }}</td>
-                      <td><label class="badge badge-{{ $p->status ? 'success' : 'warning' }}">{{ $p->status ? 'Selesai' : 'Menunggu' }}</label></td>
+                      @php
+                          $statusClass = $p->keterangan === 'Selesai' ? 'success' : 'warning';
+                      @endphp
+                      <td>
+                          <center>
+                            <label class="badge badge-{{ $statusClass }}">
+                                {{ $p->keterangan }}
+                            </label>
+                          </center>
+                      </td>
                     </tr>
                   @endforeach
                 </tbody>

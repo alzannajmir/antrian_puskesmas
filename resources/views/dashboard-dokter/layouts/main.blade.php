@@ -5,7 +5,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Dashboard - Puskesmas Kota Serang</title>
+    <title>Dashboard - Puskesmas Rancamalaka</title>
     <!-- plugins:css -->
     <link rel="stylesheet" href="/vendors/assets/vendors/mdi/css/materialdesignicons.min.css">
     <link rel="stylesheet" href="/vendors/assets/vendors/css/vendor.bundle.base.css">
@@ -36,7 +36,7 @@
           <!-- partial:partials/_footer.html -->
           <footer class="footer">
             <div class="container-fluid d-flex justify-content-between">
-              <span class="text-muted d-block text-center text-sm-start d-sm-inline-block">Copyright © Puskesmas Kota Serang {{ date('Y') }}</span>
+              <span class="text-muted d-block text-center text-sm-start d-sm-inline-block">Copyright © Puskesmas Rancamalaka {{ date('Y') }}</span>
             </div>
           </footer>
           <!-- partial -->

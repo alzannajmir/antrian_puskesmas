@@ -21,7 +21,7 @@
         <div class="container">
           <a class="navbar-brand text-success bg-white p-2 rounded-3" href="#">
             <img src="/img/logo.png" alt="Logo" width="30" height="30" class="d-inline-block align-text-top">
-            Puskesmas Kota Serang
+            Puskesmas Rancamalaka
           </a>
 
           <div class="d-flex">
@@ -90,7 +90,7 @@
           <div class="card bg-dark rounded-0">
               <div class="card-body">
                 <marquee behavior="" direction="" class="text-white">
-                  <img src="/img/logo.png" width="30" height="30" alt=""> Selamat Datang di Sistem Informasi Antrian Puskesmas Kota Serang, Untuk Informasi Lebih lanjut Hubungi, CS: 087772615244</marquee>
+                  <img src="/img/logo.png" width="30" height="30" alt=""> Selamat Datang di Sistem Informasi Antrian Puskesmas Rancamalaka, Untuk Informasi Lebih lanjut Hubungi, CS: 087772615244</marquee>
               </div>
           </div>
       </div>

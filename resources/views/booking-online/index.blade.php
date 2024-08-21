@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Booking Online - Puskesmas Kota Serang</title>
+    <title>Booking Online - Puskesmas Rancamalaka</title>
     <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <script src="/bootstrap/js/bootstrap.bundle.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
@@ -124,7 +124,7 @@
                     <img src="/img/logo.png" alt="Logo" width="100">
                 </div>
                 <h2 class="mb-3 text-custom-green">Booking Online</h2>
-                <h3 class="mb-4 text-custom-green">Puskesmas Kota Serang</h3>
+                <h3 class="mb-4 text-custom-green">Puskesmas Rancamalaka</h3>
             </div>
             <form method="post" action="{{ route('booking.checkNik') }}">
                 @csrf
