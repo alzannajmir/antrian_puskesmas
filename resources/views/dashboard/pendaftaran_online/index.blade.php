@@ -36,7 +36,7 @@
                 @foreach ($pendaftaran as $pasien)
                     <tr>
                       <td>{{ $loop->iteration }}</td>
-                      <td> <a href="/dashboard/pendaftaran-online/{{ $pasien->no_rm }}" class="text-decoration-none text-dark"> {{ $pasien->nama }} </a> </td>
+                      <td> <a href="/dashboard/pendaftaran-online/{{ $pasien->no_rm }}/edit" class="text-decoration-none text-dark"> {{ $pasien->nama }} </a> </td>
                       <td>{{ $pasien->no_hp }}</td>
                       <td>{{ $pasien->alamat }}</td>
                       <td>

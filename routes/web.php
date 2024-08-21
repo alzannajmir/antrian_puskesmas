@@ -62,7 +62,7 @@ Route::get('/dashboard', function () {
         'antrian' => Antrian::whereRaw('day(created_at) = ' . date('d') . ' and month(created_at) = ' . date('m') . ' and year(created_at) = ' . date('Y'))
         ->where('status', 0)->get()
     ]);
-})->middleware('isAdmin');
+})->middleware('auth');
 
 Route::resource('/dashboard/users', UserController::class)->scoped(['user' => 'username'])->middleware('isAdmin');
 Route::resource('/dashboard/loket', LoketController::class)->middleware('isAdmin');
